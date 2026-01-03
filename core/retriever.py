@@ -1,0 +1,12 @@
+from core.embeddings import EmbeddingModel
+from core.vector_store import VectorStore
+import numpy as np
+
+class Retriever:
+    def __init__(self, vector_store: VectorStore, embedder: EmbeddingModel):
+        self.vector_store = vector_store
+        self.embedder = embedder
+
+    def retrieve(self, query: str, top_k: int = 5):
+        query_embedding = self.embedder.embed_texts([query])
+        return self.vector_store.search(query_embedding, top_k)
