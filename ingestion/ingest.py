@@ -4,6 +4,7 @@ from ingestion.chunker import chunk_text
 from ingestion.chunker import semantic_chunk_text
 from core.embeddings import EmbeddingModel
 from core.vector_store import VectorStore
+from tools.tools import hash_pdf
 
 def ingest_pdf(
     pdf_path: str,
@@ -27,10 +28,11 @@ def ingest_pdf(
             all_chunks.append(chunk)
             metadatas.append({
                 "source": pdf_path,
+                "hash": hash_pdf(pdf_path),
                 "page": page["page"],
                 "chunk_id": i,
                 "text": chunk
             })
 
     embeddings = embedder.embed_texts(all_chunks)
-    vector_store.add(embeddings, metadatas)
+    vector_store.add(all_chunks, embeddings, metadatas)
