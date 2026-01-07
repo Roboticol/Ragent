@@ -1,15 +1,9 @@
-import chromadb
-from chromadb.config import Settings
+from core.chroma_client import get_chroma_collection
+from core.vector_store import VectorStore
 from agent.orchestrator import run_agent
 
-client = chromadb.Client(
-    Settings(persist_directory="./chroma_db")
-)
+collection = get_chroma_collection()
+vector_store = VectorStore(collection)
 
-collection = client.get_or_create_collection(
-    name="research_rag"
-)
-
-goal = input("Enter goal: ")
-
-result = run_agent(goal, mode="research")
+if __name__ == "__main__":
+    run_agent(vector_store)
