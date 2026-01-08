@@ -1,0 +1,9 @@
+services:
+  rag:
+    build: .
+    volumes:
+      - chroma_data:/data
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
