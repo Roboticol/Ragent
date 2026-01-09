@@ -1,38 +1,39 @@
-# rag/ingestion/ingest.py
+from pathlib import Path
 from ingestion.pdf_loader import load_pdf
-from ingestion.chunker import chunk_text
 from ingestion.chunker import semantic_chunk_text
-from core.embeddings import EmbeddingModel
+from core.embeddings import Embedder
 from core.vector_store import VectorStore
-from tools.tools import hash_pdf
+from chromadb import Client
+from chromadb.config import Settings
+from tools.tools import hash_file
 
-def ingest_pdf(
-    pdf_path: str,
-    vector_store: VectorStore,
-    embedder: EmbeddingModel,
-    semantic_chunker: bool
-):
-    pages = load_pdf(pdf_path)
+def ingest_directory(data_dir: str):
+    client = Client(Settings(persist_directory="./chroma_db"))
+    collection = client.get_or_create_collection("research_rag")
 
-    all_chunks = []
-    metadatas = []
+    store = VectorStore(collection)
+    embedder = Embedder()
 
-    for page in pages:
-        chunks = []
-        if semantic_chunker:
-            chunks = semantic_chunk_text(embedder, 0.75, 8)
-        else:
-            chunks = chunk_text(page["text"])
+    for pdf_path in Path(data_dir).glob("*.pdf"):
+        file_hash = hash_file(pdf_path)
 
-        for i, chunk in enumerate(chunks):
-            all_chunks.append(chunk)
-            metadatas.append({
-                "source": pdf_path,
-                "hash": hash_pdf(pdf_path),
-                "page": page["page"],
-                "chunk_id": i,
-                "text": chunk
-            })
+        text = load_pdf(pdf_path)
+        chunks = semantic_chunk_text(text)
 
-    embeddings = embedder.embed_texts(all_chunks)
-    vector_store.add(all_chunks, embeddings, metadatas)
+        embeddings = embedder.embed_texts(chunks)
+
+        metadatas = [
+            {
+                "source": pdf_path.name,
+                "hash": file_hash,
+                "chunk_id": i
+            }
+            for i in range(len(chunks))
+        ]
+
+        store.add(chunks, embeddings, metadatas)
+
+        print(f"Ingested {pdf_path.name} ({len(chunks)} chunks)")
+
+if __name__ == "__main__":
+    ingest_directory("data/papers")

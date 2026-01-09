@@ -11,6 +11,8 @@ def load_codebase(path):
         code.append((file.name, file.read_text()))
     return code
 
+def hash_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def read_text_files(path):
     texts = []
@@ -35,12 +37,6 @@ def retrieve_context(retriever: Retriever, query: str) -> str:
     return "\n\n".join(context_blocks)
 
 
-def hash_pdf(path: str) -> str:
-    hasher = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
-            hasher.update(chunk)
-    return hasher.hexdigest()
 
 
 def split_sentences(text):
