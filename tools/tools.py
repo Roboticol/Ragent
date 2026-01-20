@@ -40,5 +40,5 @@ def retrieve_context(retriever: Retriever, query: str) -> str:
 
 
 def split_sentences(text):
-    doc = nlp(text)
+    doc = nlp(" ".join(text))
     return [sent.text.strip() for sent in doc.sents if sent.text.strip()]

@@ -19,7 +19,7 @@ def chunk_text(text: str, chunk_size=800, overlap=100):
 def semantic_chunk_text(model: EmbeddingModel, similarity_threshold: int, max_sentences: int, text: str):
     # semantic chunker for technical/academic documents
     sentences = split_sentences(text)
-    embeddings = model.encode(sentences, normalize_embeddings=True)
+    embeddings = model.embed_texts(sentences)
 
     chunks = []
     current_chunk = [sentences[0]]

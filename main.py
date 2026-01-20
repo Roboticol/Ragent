@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
 import os
+from dotenv import load_dotenv
 import time
 
 import chromadb
@@ -15,7 +16,9 @@ from agent.orchestrator import run_agent
 app = FastAPI(title="Research RAG API")
 
 # ---------- Auth ----------
+load_dotenv()
 API_KEY = os.getenv("API_KEY")
+print(API_KEY)
 
 def verify_api_key(x_api_key: str):
     if not API_KEY or x_api_key != API_KEY:
