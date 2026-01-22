@@ -3,19 +3,17 @@ from ingestion.pdf_loader import load_pdf
 from ingestion.chunker import semantic_chunk_text
 from core.embeddings import EmbeddingModel
 from core.vector_store import VectorStore
-from chromadb import Client
+from chromadb import PersistentClient
 from chromadb.config import Settings
 from tools.tools import hash_file
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CHROMA_DIR = PROJECT_ROOT / "chroma_db"
+
 def ingest_directory(data_dir: str):
-    BASE_DIR = Path(__file__).resolve().parent.parent  # project root
-    CHROMA_DIR = BASE_DIR / "chroma_db"
-
-    print("Chroma path:", CHROMA_DIR)
-
-    client = Client(
-        Settings(
-            persist_directory=str(CHROMA_DIR),
+    client = PersistentClient(
+        path=str(CHROMA_DIR),
+        settings=Settings(
             anonymized_telemetry=False
         )
     )
@@ -47,4 +45,24 @@ def ingest_directory(data_dir: str):
     print("Collection count:", collection.count())
 
 if __name__ == "__main__":
-    ingest_directory("data/pdfs")
+    ingest_directory("./data/papers")
+
+    client = PersistentClient(
+        path=str(CHROMA_DIR),
+        settings=Settings(
+            anonymized_telemetry=False
+        )
+    )
+    collection = client.get_or_create_collection("research_rag")
+    store = VectorStore(collection)
+
+    embedder = EmbeddingModel()
+
+    query_embedding = embedder.embed_texts(["Agents"])
+
+    print(store.search(query_embedding))
+    print("Final count:", collection.count())
+    print("Chroma dir exists:", CHROMA_DIR.exists())
+    print("Chroma files:", list(CHROMA_DIR.iterdir()))
+
+    

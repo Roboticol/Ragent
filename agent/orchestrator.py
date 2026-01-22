@@ -9,10 +9,8 @@
 # from tools.tools import parse_response
 
 
-def run_agent(goal, mode="research"):
+def run_agent(question, mode="research"):
     print("[ORCHESTRATOR RUNNING]")
-    print("[CRITIC RUNNING]")
+    # print("[CRITIC RUNNING]")
 
-    return {
-
-    }
+    return ""

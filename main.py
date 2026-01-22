@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
 import time
+from pathlib import Path
 
 import chromadb
 from chromadb.config import Settings
@@ -25,11 +26,22 @@ def verify_api_key(x_api_key: str):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
 # ---------- Load once ----------
-client = chromadb.Client(
-    Settings(persist_directory="./chroma_db")
+PROJECT_ROOT = Path(__file__).resolve().parent
+CHROMA_DIR = PROJECT_ROOT / "chroma_db"
+
+client = chromadb.PersistentClient(
+    path=str(CHROMA_DIR),
+    settings=Settings(
+        anonymized_telemetry=False
+    )
 )
 collection = client.get_or_create_collection("research_rag")
 
+print("Final count:", collection.count())
+print("Chroma dir exists:", CHROMA_DIR.exists())
+print("Chroma files:", list(CHROMA_DIR.iterdir()))
+
+    
 vector_store = VectorStore(collection)
 embedder = EmbeddingModel()
 
@@ -64,12 +76,13 @@ def query(
         top_k=req.top_k
     )
 
+    print(results)
+
     documents = results["documents"][0]
 
     # Run agent
     answer = run_agent(
         question=req.query,
-        context=documents
     )
 
     latency_ms = int((time.time() - start) * 1000)
@@ -78,7 +91,7 @@ def query(
     log_query(
         query=req.query,
         top_k=req.top_k,
-        retrieved_chunks=len(documents),
+        retrieved=len(documents),
         latency_ms=latency_ms
     )
 
