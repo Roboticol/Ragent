@@ -10,6 +10,13 @@ from tools.tools import hash_file
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CHROMA_DIR = PROJECT_ROOT / "chroma_db"
 
+def is_already_ingested(collection, file_hash: str) -> bool:
+    result = collection.get(
+        where={"hash": file_hash},
+        limit=1
+    )
+    return len(result["ids"]) > 0
+
 def ingest_directory(data_dir: str):
     client = PersistentClient(
         path=str(CHROMA_DIR),
@@ -19,12 +26,21 @@ def ingest_directory(data_dir: str):
     )
     collection = client.get_or_create_collection("research_rag")
 
+    # metadata for response
+    pdfs_ingested = []
+    prev_colcount = collection.count()
+    
     store = VectorStore(collection)
     embedder = EmbeddingModel()
 
     for pdf_path in Path(data_dir).glob("*.pdf"):
         file_hash = hash_file(pdf_path)
 
+        # check if file_hash already exists in collection, if it does, then skip current iteration
+        if is_already_ingested(collection, file_hash):
+                print(f"Skipping {pdf_path.name} (already ingested)")
+                continue
+        
         text = load_pdf(pdf_path)
         chunks = semantic_chunk_text(embedder, 0.75, 8, text)
 
@@ -40,12 +56,20 @@ def ingest_directory(data_dir: str):
         ]
 
         store.add(chunks, embeddings, metadatas)
-
+        pdfs_ingested.append(pdf_path.name)
         print(f"Ingested {pdf_path.name} ({len(chunks)} chunks)")
+
+    colcount = collection.count()
     print("Collection count:", collection.count())
+    return {
+        "pdfs_ingested": pdfs_ingested,
+        "previous_collection_count": prev_colcount,
+        "final_collection_count": colcount,
+        "collection_count_change": colcount - prev_colcount
+    }
 
 if __name__ == "__main__":
-    ingest_directory("./data/papers")
+    ingest_directory("./data/pdfs")
 
     client = PersistentClient(
         path=str(CHROMA_DIR),
@@ -54,15 +78,14 @@ if __name__ == "__main__":
         )
     )
     collection = client.get_or_create_collection("research_rag")
-    store = VectorStore(collection)
+    # store = VectorStore(collection)
 
-    embedder = EmbeddingModel()
+    # embedder = EmbeddingModel()
 
-    query_embedding = embedder.embed_texts(["Agents"])
+    # query_embedding = embedder.embed_texts(["Agents"])
 
-    print(store.search(query_embedding))
-    print("Final count:", collection.count())
+    # print(store.search(query_embedding))
+    print("Final collection count:", collection.count())
+    print("Collect")
     print("Chroma dir exists:", CHROMA_DIR.exists())
     print("Chroma files:", list(CHROMA_DIR.iterdir()))
-
-    

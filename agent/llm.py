@@ -16,5 +16,5 @@ def call_llm(prompt, system="You are a helpful AI"):
         json=payload
     )
 
-    print("returned message: ", r.json())
+    # print("returned message: ", r.json())
     return r.json()["message"]["content"]

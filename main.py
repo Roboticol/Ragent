@@ -12,6 +12,7 @@ from core.vector_store import VectorStore
 from core.embeddings import EmbeddingModel
 from api.logger import log_query
 from agent.orchestrator import run_agent
+from ingestion.ingest import ingest_directory
 
 # ---------- App ----------
 app = FastAPI(title="Research RAG API")
@@ -37,9 +38,9 @@ client = chromadb.PersistentClient(
 )
 collection = client.get_or_create_collection("research_rag")
 
-print("Final count:", collection.count())
+print("Collection count:", collection.count())
 print("Chroma dir exists:", CHROMA_DIR.exists())
-print("Chroma files:", list(CHROMA_DIR.iterdir()))
+# print("Chroma files:", list(CHROMA_DIR.iterdir()))
 
     
 vector_store = VectorStore(collection)
@@ -53,6 +54,12 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     answer: str
     sources: list[str]
+
+class QueryResponseChunk(BaseModel):
+    pdfs_ingested: list[str]
+    previous_collection_count: int
+    final_collection_count: int
+    collection_count_change: int
 
 # ---------- Endpoints ----------
 @app.get("/health")
@@ -76,7 +83,7 @@ def query(
         top_k=req.top_k
     )
 
-    print(results)
+    # print(results)
 
     documents = results["documents"][0]
 
@@ -99,4 +106,20 @@ def query(
     return QueryResponse(
         answer=answer,
         sources=documents
+    )
+
+@app.post("/ingest", response_model=QueryResponseChunk)
+def query(
+    x_api_key: str = Header(...)
+):
+    verify_api_key(x_api_key)
+    start = time.time()                       
+    
+    res = ingest_directory("./data/pdfs")
+
+    return QueryResponseChunk(
+        pdfs_ingested=res["pdfs_ingested"],
+        previous_collection_count=res["previous_collection_count"],
+        final_collection_count=res["final_collection_count"],
+        collection_count_change=res["collection_count_change"]
     )
