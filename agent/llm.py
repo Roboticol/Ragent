@@ -15,4 +15,6 @@ def call_llm(prompt, system="You are a helpful AI"):
         "http://localhost:11434/api/chat",
         json=payload
     )
+
+    print("returned message: ", r.json())
     return r.json()["message"]["content"]

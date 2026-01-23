@@ -1,6 +1,6 @@
 # from agent.planner import create_plan
 # from agent.reasoner import reason_over_content
-# from agent.critic import critique
+from agent.prompt import prompt
 
 # from tools.tools import read_text_files
 # from tools.tools import read_pdfs
@@ -9,8 +9,7 @@
 # from tools.tools import parse_response
 
 
-def run_agent(question, mode="research"):
-    print("[ORCHESTRATOR RUNNING]")
-    # print("[CRITIC RUNNING]")
+def run_agent(query, sources, mode="research"):    
+    response = prompt(query, sources)
 
-    return ""
+    return response

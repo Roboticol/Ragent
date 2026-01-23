@@ -82,7 +82,8 @@ def query(
 
     # Run agent
     answer = run_agent(
-        question=req.query,
+        query=req.query,
+        sources=documents
     )
 
     latency_ms = int((time.time() - start) * 1000)
