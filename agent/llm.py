@@ -12,7 +12,7 @@ def call_llm(prompt, system="You are a helpful AI"):
     }
 
     r = requests.post(
-        "http://localhost:11434/api/chat",
+        "http://ollama:11434/api/chat",
         json=payload
     )
 
