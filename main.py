@@ -16,6 +16,7 @@ from ingestion.ingest import ingest_directory
 
 # ---------- App ----------
 app = FastAPI(title="Research RAG API")
+INGEST_DIR = os.getenv("INGEST_DIR")
 
 # ---------- Auth ----------
 load_dotenv()
@@ -56,6 +57,7 @@ class QueryResponse(BaseModel):
     sources: list[str]
 
 class QueryResponseChunk(BaseModel):
+    txts_ingested: list[str]
     pdfs_ingested: list[str]
     previous_collection_count: int
     final_collection_count: int
@@ -109,15 +111,17 @@ def query(
     )
 
 @app.post("/ingest", response_model=QueryResponseChunk)
-def query(
+def ingest(
     x_api_key: str = Header(...)
 ):
+    print("beginning ingestion...")
     verify_api_key(x_api_key)
     start = time.time()                       
     
-    res = ingest_directory("./data/pdfs")
+    res = ingest_directory(INGEST_DIR)
 
     return QueryResponseChunk(
+        txts_ingested=res["txts_ingested"],
         pdfs_ingested=res["pdfs_ingested"],
         previous_collection_count=res["previous_collection_count"],
         final_collection_count=res["final_collection_count"],
