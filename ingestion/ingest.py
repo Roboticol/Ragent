@@ -13,6 +13,7 @@ load_dotenv()
 INGEST_DIR = os.getenv("INGEST_DIR")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CHROMA_DIR = PROJECT_ROOT / "chroma_db"
+# CHROMA_DIR = os.getenv("CHROMA_DIR")
 
 def is_already_ingested(collection, file_hash: str) -> bool:
     result = collection.get(

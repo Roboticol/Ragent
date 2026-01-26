@@ -30,6 +30,7 @@ def verify_api_key(x_api_key: str):
 # ---------- Load once ----------
 PROJECT_ROOT = Path(__file__).resolve().parent
 CHROMA_DIR = PROJECT_ROOT / "chroma_db"
+# CHROMA_DIR = os.getenv("CHROMA_DIR")
 
 client = chromadb.PersistentClient(
     path=str(CHROMA_DIR),

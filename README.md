@@ -28,11 +28,6 @@
   * Request logging and latency tracking
   * Health check endpoint
 
-* 🐳 **Dockerized Setup**
-
-  * Reproducible environment
-  * Ready for local or server deployment
-
 ---
 
 ## ⚙️ Tech Stack
@@ -43,7 +38,6 @@
 * **Sentence-Transformers** – Embeddings
 * **spaCy** – Sentence segmentation
 * **PyMuPDF (fitz)** – PDF parsing
-* **Docker & Docker Compose** – Deployment
 
 ---
 
