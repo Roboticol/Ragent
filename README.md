@@ -63,6 +63,14 @@ Embeddings are persisted to disk using `PersistentClient`.
 
 ## 🔎 Querying the RAG API
 
+### Install Prerequisites
+Make sure [ollama](https://ollama.com/) is installed on your system. Then,
+```bash
+pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+ollama pull llama3.2:3b
+```
+
 ### Start the API
 
 ```bash
@@ -113,35 +121,6 @@ This lays the foundation for:
 * Monitoring
 * Analytics dashboards
 * Future observability integrations
-
----
-
-## 🧪 Development Notes
-
-* Absolute paths are used for ChromaDB to avoid multi-process issues
-* ChromaDB persistence is handled via `PersistentClient`
-* Architecture is modular and extensible (reranking, hybrid search, tools)
-
----
-
-## 🛣️ Roadmap
-
-* [ ] Reranking (cross-encoders)
-* [ ] Hybrid search (BM25 + embeddings)
-* [ ] Streaming responses
-* [ ] Document-level access control
-* [ ] Evaluation metrics (Recall@K, MRR)
-
----
-
-## 🎯 Why This Project Matters
-
-Ragent demonstrates:
-
-* Real-world RAG engineering challenges
-* Production debugging (persistence, paths, clients)
-* Clean separation of concerns
-* Interview-ready system design
 
 ---
 
