@@ -1,6 +1,6 @@
 # Ragent
 
-**Ragent** is a production-oriented, research-focused Retrieval-Augmented Generation (RAG) system designed to ingest, index, and query large document collections (such as PDFs) using semantic search and generative AI.
+**Ragent** is a production-oriented, research-focused Retrieval-Augmented Generation (RAG) system designed to ingest, index, and query large document collections (such as PDFs) using semantic chunking,semantic search and generative AI.
 
 ---
 
@@ -40,6 +40,20 @@
 * **PyMuPDF (fitz)** – PDF parsing
 
 ---
+## ✅ Prerequisites
+Make sure [ollama](https://ollama.com/) is installed on your system. Then,
+```bash
+pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+ollama pull llama3.2:3b
+```
+Create a `.env` file in your root folder, containing:
+```
+API_KEY="SECRET"
+INGEST_DIR = "./your/path"
+```
+`API_KEY` is the API KEY of the RAG.
+`INGEST_DIR` is where the files you want to ingest are stored. Currently only PDFs and .txts are supported.
 
 ## 📥 Ingestion Workflow
 
@@ -62,14 +76,6 @@ Embeddings are persisted to disk using `PersistentClient`.
 ---
 
 ## 🔎 Querying the RAG API
-
-### Install Prerequisites
-Make sure [ollama](https://ollama.com/) is installed on your system. Then,
-```bash
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
-ollama pull llama3.2:3b
-```
 
 ### Start the API
 
