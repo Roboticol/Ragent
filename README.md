@@ -98,37 +98,3 @@ X-API-Key: YOUR_API_KEY
   "sources": ["paper1.pdf", "paper2.pdf"]
 }
 ```
-
----
-
-## 🔐 Authentication
-
-* API access is protected using an **API key**
-* Key is loaded from environment variables (`.env` file)
-
----
-
-## 📊 Logging & Observability
-
-Each request logs:
-
-* Query text
-* Number of retrieved chunks
-* Latency (ms)
-
-This lays the foundation for:
-
-* Monitoring
-* Analytics dashboards
-* Future observability integrations
-
----
-
-## 📄 License
-
-MIT License (or specify your own)
-
----
-
-**Author:** You
-**Project Name:** Ragent
