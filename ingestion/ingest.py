@@ -79,7 +79,8 @@ def ingest_directory(data_dir: str):
             continue
         
         text = load_pdf(pdf_path)
-        chunks = semantic_chunk_text(embedder, 0.75, 8, text)
+        prefix = pdf_path.name.split("_")[0]
+        chunks = semantic_chunk_text(embedder, 0.75, prefix, 8, text)
 
         embeddings = embedder.embed_texts(chunks)
 

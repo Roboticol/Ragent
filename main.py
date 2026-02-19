@@ -52,6 +52,7 @@ embedder = EmbeddingModel()
 class QueryRequest(BaseModel):
     query: str
     top_k: int = 5
+    language: str
 
 class QueryResponse(BaseModel):
     answer: str
@@ -85,8 +86,6 @@ def query(
         query_embedding=query_embedding,
         top_k=req.top_k
     )
-
-    # print(results)
 
     documents = results["documents"][0]
 

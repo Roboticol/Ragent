@@ -2,8 +2,9 @@ from pathlib import Path
 import spacy
 import hashlib
 from core.retriever import Retriever
+import json
 
-nlp = spacy.load("en_core_web_sm")
+nlp = None
 
 def load_codebase(path):
     code = []
@@ -39,6 +40,12 @@ def retrieve_context(retriever: Retriever, query: str) -> str:
 
 
 
-def split_sentences(text):
+def split_sentences(text, language):
+    with open("../languages.json", "r") as f:
+        data = json.load(f)
+        for i in data["languages"]:
+            if i["name"] == language:
+                nlp = spacy.load(i["embed"])
+
     doc = nlp(" ".join(text))
     return [sent.text.strip() for sent in doc.sents if sent.text.strip()]

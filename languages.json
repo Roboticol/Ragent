@@ -1,0 +1,10 @@
+{
+    "languages": [
+        {"name": "english", "embed": "en_core_web_sm"},
+        {"name": "hindi", "embed": "hi_core_news_md"},
+        {"name": "bengali", "embed": "bn_core_news_sm"},
+        {"name": "marathi", "embed": "mr_core_news_sm"},
+        {"name": "malayalam", "embed": "ml_core_news_sm"},
+        {"name": "punjabi", "embed": "pa_core_news_sm"}
+    ]
+}

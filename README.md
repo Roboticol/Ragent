@@ -1,6 +1,6 @@
 # Ragent
 
-**Ragent** is a production-oriented, research-focused Retrieval-Augmented Generation (RAG) system designed to ingest, index, and query large document collections (such as PDFs) using semantic chunking,semantic search and generative AI.
+**Ragent** is a research-focused Retrieval-Augmented Generation (RAG) system designed to ingest, index, and query large document collections of documents in english and other indic languages using semantic chunking, semantic search and generative AI.
 
 ---
 
@@ -10,6 +10,7 @@
 
   * Robust PDF loading
   * Semantic sentence-based chunking
+  * Can be used to ingest documents in english and indic languages
   * Hash-based document identification
 
 * 🧠 **Semantic Search with Embeddings**
@@ -68,7 +69,7 @@ python -m ingestion.ingest
 
    * Load PDFs
    * Semantically chunk text
-   * Generate embeddings
+   * Generate embeddings based on the language of the text
    * Store chunks + metadata in ChromaDB
 
 Embeddings are persisted to disk using `PersistentClient`.
