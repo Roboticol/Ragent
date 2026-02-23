@@ -7,6 +7,10 @@ from chromadb import PersistentClient
 from chromadb.config import Settings
 from tools.tools import hash_file
 from dotenv import load_dotenv
+import spacy
+import subprocess
+import json
+import sys
 import os
 
 load_dotenv()
@@ -15,6 +19,21 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CHROMA_DIR = PROJECT_ROOT / "chroma_db"
 # CHROMA_DIR = os.getenv("CHROMA_DIR")
 
+# # Spacy module helpers
+# def ensure_spacy_model():
+#     with open("./languages.json", "r") as f:
+#         data = json.load(f)
+#         for lang in data["languages"]:
+#             model_name = lang["embed"]
+#             try:
+#                 spacy.load(model_name)
+#                 print(f"Model '{model_name}' is already available.")
+#             except OSError:
+#                 print(f"Model '{model_name}' not found. Downloading...")
+#                 subprocess.run([sys.executable, "-m", "spacy", "download", model_name], check=True)
+#                 print(f"Model '{model_name}' downloaded successfully.")
+
+# ingestion code
 def is_already_ingested(collection, file_hash: str) -> bool:
     result = collection.get(
         where={"hash": file_hash},
@@ -23,6 +42,8 @@ def is_already_ingested(collection, file_hash: str) -> bool:
     return len(result["ids"]) > 0
 
 def ingest_directory(data_dir: str):
+    # ensure_spacy_model()
+
     client = PersistentClient(
         path=str(CHROMA_DIR),
         settings=Settings(

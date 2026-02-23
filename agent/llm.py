@@ -3,7 +3,7 @@ import requests
 
 def call_llm(prompt, system="You are a helpful AI"):
     payload = {
-        "model": "llama3.2:3b",
+        "model": "mashriram/sarvam-1",
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": prompt}
@@ -12,7 +12,7 @@ def call_llm(prompt, system="You are a helpful AI"):
     }
 
     r = requests.post(
-        "http://ollama:11434/api/chat",
+        "http://localhost:11434/api/chat",
         json=payload
     )
 

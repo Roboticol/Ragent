@@ -2,6 +2,7 @@ from pathlib import Path
 import spacy
 import hashlib
 from core.retriever import Retriever
+from indicnlp.tokenize import sentence_tokenize
 import json
 
 nlp = None
@@ -41,11 +42,15 @@ def retrieve_context(retriever: Retriever, query: str) -> str:
 
 
 def split_sentences(text, language):
-    with open("../languages.json", "r") as f:
+    with open("./languages.json", "r") as f:
         data = json.load(f)
         for i in data["languages"]:
             if i["name"] == language:
+                if i["embed"] == "indicnlp":
+                    return sentence_tokenize.sentence_split(
+                        " ".join(text), lang=i["code"]
+                    )
+                
                 nlp = spacy.load(i["embed"])
-
-    doc = nlp(" ".join(text))
-    return [sent.text.strip() for sent in doc.sents if sent.text.strip()]
+                doc = nlp(" ".join(text))
+                return [sent.text.strip() for sent in doc.sents if sent.text.strip()]
