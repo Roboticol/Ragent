@@ -1,11 +1,10 @@
 {
     "languages": [
         { "name": "english", "embed": "en_core_web_sm" },
-        { "name": "german", "embed": "de_core_news_sm" },
         { "name": "hindi", "embed": "indicnlp", "code": "hi" },
         { "name": "bengali", "embed": "indicnlp", "code": "bn" },
-        { "name": "punjabi", "embed": "indicnlp", "code": "pa" },
         { "name": "marathi", "embed": "indicnlp", "code": "mr" },
-        { "name": "malayalam", "embed": "indicnlp", "code": "ml" }
+        { "name": "malayalam", "embed": "indicnlp", "code": "ml" },
+        { "name": "tamil", "embed": "indicnlp", "code": "ta" }
     ]
 }

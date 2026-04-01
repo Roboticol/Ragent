@@ -72,7 +72,14 @@ def ingest_directory(data_dir: str):
         textf = open(txt_path, "r")
         text = list(textf)
         chunks = semantic_chunk_text(embedder, 0.75, 8, text)
-
+        # if not chunks:
+        #     return {
+        #         "txts_ingested": 0,
+        #         "pdfs_ingested": 0,
+        #         "previous_collection_count": prev_colcount,
+        #         "final_collection_count": colcount,
+        #         "collection_count_change": colcount - prev_colcount
+        #     }
         embeddings = embedder.embed_texts(chunks)
 
         metadatas = [
@@ -99,7 +106,10 @@ def ingest_directory(data_dir: str):
             print(f"Skipping {pdf_path.name} (already ingested)")
             continue
         
+        print(f"Ingesting {pdf_path.name}...")
+
         text = load_pdf(pdf_path)
+        # print("--------------" + str(text) + "------------------")
         prefix = pdf_path.name.split("_")[0]
         chunks = semantic_chunk_text(embedder, 0.75, prefix, 8, text)
 

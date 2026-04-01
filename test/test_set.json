@@ -1,0 +1,104 @@
+{ 
+    "data":[
+        {
+            "user_input": "How to build a RAG agent?",
+            "ground_truth": "To build a RAG system, first set up Ingestion: extract text from your documents, break it into small chunks, and convert those chunks into numerical embeddings using an AI model. Store these embeddings in a vector database (like Pinecone or Chroma) so they can be searched by meaning rather than just keywords. During Inference, when a user asks a question, convert that query into an embedding and retrieve the most relevant chunks from your database. Feed these specific snippets along with the original question into an LLM (like GPT-4) as context. The model then generates an answer based strictly on your data, reducing hallucinations.",
+            "lang": "english"
+        },
+        {
+            "user_input": "What is a vector database and why is it used in RAG?",
+            "ground_truth": "A vector database stores data as high-dimensional numerical vectors (embeddings) rather than structured rows. In RAG systems, document chunks are embedded and stored in a vector database so that semantic similarity search can be performed at query time — retrieving chunks that are meaningfully related to the question, not just keyword-matched.",
+            "lang": "english"
+        },
+        {
+            "user_input": "What is the difference between semantic search and keyword search?",
+            "ground_truth": "Keyword search matches exact words or phrases in documents. Semantic search converts both the query and documents into embeddings and finds results based on meaning and context, even if the exact words differ. Semantic search is preferred in RAG because user queries rarely use the exact same words as the source documents.",
+            "lang": "english"
+        },
+        {
+            "user_input": "What are common chunking strategies for RAG?",
+            "ground_truth": "Common chunking strategies include fixed-size chunking (splitting by token or character count), sentence-based chunking (splitting on sentence boundaries), paragraph-based chunking, and recursive character splitting. Chunk overlap is often used so context is not lost at boundaries. The right strategy depends on document structure and the embedding model's context window.",
+            "lang": "english"
+        },
+
+        {
+            "user_input": "पंचतंत्र में कौए और घड़े की कहानी में कौए ने पानी कैसे पिया?",
+            "ground_truth": "एक प्यासे कौए को एक घड़ा मिला जिसमें पानी बहुत नीचे था। कौए की चोंच वहाँ तक नहीं पहुँच सकती थी। तब उसने एक उपाय सोचा — उसने घड़े में एक-एक करके कंकड़ डाले। कंकड़ डालने से पानी ऊपर आता गया। जब पानी ऊपर आ गया तो कौए ने आसानी से पानी पी लिया। यह कहानी बुद्धि और धैर्य का महत्व सिखाती है।",
+            "lang": "hindi"
+        },
+        {
+            "user_input": "शेर और चूहे की कहानी में चूहे ने शेर की मदद कैसे की?",
+            "ground_truth": "एक बार एक शेर सो रहा था। एक छोटा चूहा उसके ऊपर से दौड़ गया जिससे शेर की नींद खुल गई। शेर ने चूहे को पकड़ लिया और खाने को तैयार हो गया। चूहे ने विनती की कि वह एक दिन शेर के काम आएगा। शेर हँसा पर उसे छोड़ दिया। कुछ दिन बाद शेर एक जाल में फँस गया। चूहे ने अपने दाँतों से जाल काट दिया और शेर को आज़ाद कर दिया। इस कहानी से सीख मिलती है कि कोई भी उपकार छोटा नहीं होता।",
+            "lang": "hindi"
+        },
+        {
+            "user_input": "पंचतंत्र की 'मित्रभेद' कथा का मुख्य संदेश क्या है?",
+            "ground_truth": "मित्रभेद पंचतंत्र का पहला भाग है जिसमें दो मित्रों — एक बैल और एक शेर — की दोस्ती टूटने की कहानी है। एक चालाक गीदड़ दोनों के बीच झूठी बातें फैलाकर उनमें शत्रुता पैदा कर देता है। इस कथा का मुख्य संदेश है कि चालाक और स्वार्थी लोगों की बातों में आकर सच्ची मित्रता को नष्ट नहीं करना चाहिए।",
+            "lang": "hindi"
+        },
+
+        {
+            "user_input": "ঠাকুরমার ঝুলিতে রাজকুমার আর রাক্ষসের গল্পে রাজকুমার কীভাবে বিপদ থেকে মুক্তি পেয়েছিল?",
+            "ground_truth": "ঠাকুরমার ঝুলির গল্পে রাজকুমার রাক্ষসের কবলে পড়লে সাহস ও বুদ্ধির সাহায্যে মুক্তি পায়। রাক্ষসের প্রাণ ছিল একটি পাখির ভেতরে, আর সেই পাখি ছিল একটি বাক্সের মধ্যে। রাজকুমার সেই রহস্য জেনে পাখিটিকে ধরে রাক্ষসকে পরাজিত করে এবং বন্দি রাজকন্যাকে মুক্ত করে।",
+            "lang": "bengali"
+        },
+        {
+            "user_input": "সোনার কাঠি রুপার কাঠির গল্পে কাঠি দুটির কী কাজ ছিল?",
+            "ground_truth": "ঠাকুরমার ঝুলির এই গল্পে সোনার কাঠি দিয়ে ছোঁয়ালে মৃত মানুষ জীবিত হয়ে উঠত, আর রুপার কাঠি দিয়ে ছোঁয়ালে জীবিত মানুষ ঘুমিয়ে পড়ত। এই দুটি যাদুর কাঠি গল্পের নায়ক-নায়িকাদের বিপদে সাহায্য করত এবং শত্রুদের পরাজিত করতে ব্যবহার হতো।",
+            "lang": "bengali"
+        },
+        {
+            "user_input": "ঠাকুরমার ঝুলির গল্পগুলো কে সংকলন করেছিলেন এবং এগুলোর বৈশিষ্ট্য কী?",
+            "ground_truth": "ঠাকুরমার ঝুলি সংকলন করেছিলেন দক্ষিণারঞ্জন মিত্র মজুমদার, প্রথম প্রকাশিত হয় ১৯০৭ সালে। এই বইটিতে বাংলার লোককথা ও রূপকথার গল্প সংগ্রহ করা হয়েছে। গল্পগুলোতে রাজা-রানি, রাজকুমার-রাজকন্যা, রাক্ষস-খোক্কস এবং যাদুর জিনিসপত্র থাকে। এগুলো মূলত দাদি-নানিরা শিশুদের শোনাতেন।",
+            "lang": "bengali"
+        },
+
+        {
+            "user_input": "छत्रपती शिवाजी महाराजांचा राज्याभिषेक कधी आणि कोठे झाला?",
+            "ground_truth": "छत्रपती शिवाजी महाराजांचा राज्याभिषेक ६ जून १६७४ रोजी रायगड किल्ल्यावर झाला. गागाभट्ट यांनी हा सोहळा संपन्न केला आणि महाराजांनी 'छत्रपती' ही पदवी धारण केली.",
+            "lang": "marathi"
+        },
+        {
+            "user_input": "शिवाजी महाराजांच्या अष्टप्रधान मंडळाचे महत्त्व काय होते?",
+            "ground_truth": "अष्टप्रधान मंडळ हे महाराजांच्या स्वराज्यातील प्रशासकीय आणि लष्करी मार्गदर्शनासाठी नेमलेले आठ मंत्र्यांचे मंडळ होते. यात पेशवा, अमात्य, सचिव, मंत्री, सेनापती, सुमंत, न्यायाधीश आणि पंडितराव यांचा समावेश होता.",
+            "lang": "marathi"
+        },
+        {
+            "user_input": "शिवाजी महाराजांनी गनिमी काव्याचा वापर कसा केला?",
+            "ground_truth": "गनिमी कावा ही महाराजांची मुख्य युद्धनीती होती. यात शत्रूच्या मोठ्या सैन्याला डोंगराळ आणि कठीण प्रदेशात ओढून, अचानक आणि वेगाने हल्ला करून त्यांचा पराभव केला जात असे.",
+            "lang": "marathi"
+        },
+
+        {
+            "user_input": "MALC കാറ്റലോഗ് വഴി ലൈബ്രറി പുസ്തകങ്ങൾ എങ്ങനെ തിരയാം?",
+            "ground_truth": "MALC (Malayalam Academic Library Catalog) വഴി പുസ്തകത്തിന്റെ പേര്, രചയിതാവ്, അല്ലെങ്കിൽ വിഷയം എന്നിവ ഉപയോഗിച്ച് ഓൺലൈനായി തിരയാം. ഇത് കേരളത്തിലെ വിവിധ അക്കാദമിക് ലൈബ്രറികളിലെ പുസ്തകങ്ങളുടെ ലഭ്യത കാണിക്കുന്നു.",
+            "lang": "malayalam"
+        },
+        {
+            "user_input": "ഡിജിറ്റൽ ആർക്കൈവിംഗിൽ MALC വഹിക്കുന്ന പങ്ക് എന്താണ്?",
+            "ground_truth": "പഴയകാല മലയാളം കൈയെഴുത്തുപ്രതികളും അപൂർവ്വ പുസ്തകങ്ങളും ഡിജിറ്റൈസ് ചെയ്ത് സംരക്ഷിക്കുന്നതിനും ഗവേഷകർക്ക് അവ ലഭ്യമാക്കുന്നതിനും MALC വലിയ പങ്ക് വഹിക്കുന്നു.",
+            "lang": "malayalam"
+        },
+        {
+            "user_input": "ലൈബ്രറി അംഗങ്ങൾക്ക് MALC വഴി പുസ്തകങ്ങൾ റിസർവ് ചെയ്യാൻ സാധിക്കുമോ?",
+            "ground_truth": "അതെ, അംഗീകൃത ലൈബ്രറി ലോഗിൻ ഉപയോഗിച്ച് MALC പോർട്ടലിലൂടെ ആവശ്യമായ പുസ്തകങ്ങൾ റിസർവ് ചെയ്യാനും അവയുടെ നിലവിലെ അവസ്ഥ പരിശോധിക്കാനും സാധിക്കും.",
+            "lang": "malayalam"
+        },
+
+        {
+            "user_input": "மணிபல்லவம் நாவலின் இரண்டாம் பாகத்தில் இளஞ்செழியனின் நிலை என்ன?",
+            "ground_truth": "மணிபல்லவம் இரண்டாம் பாகத்தில், இளஞ்செழியன் கடல் பயணங்களின் போது பல சவால்களை எதிர்கொள்கிறான். மணிமேகலை காப்பியத்தின் பின்னணியில் அமைந்த இந்த நாவல், தீவின் மர்மங்களையும் அவனது வீரத்தையும் விவரிக்கிறது.",
+            "lang": "tamil"
+        },
+        {
+            "user_input": "நா. பார்த்தசாரதி இந்த நாவலில் எந்த காலகட்டத்தை சித்தரிக்கிறார்?",
+            "ground_truth": "நா. பார்த்தசாரதி இந்த நாவலில் பல்லவர் காலத்து தமிழகத்தையும், கடல் கடந்த வணிகத்தையும், பௌத்த மதத்தின் செல்வாக்கையும் வரலாற்றுப் பின்னணியுடன் மிக அழகாகச் சித்தரிக்கிறார்.",
+            "lang": "tamil"
+        },
+        {
+            "user_input": "மணிபல்லவம் கதையில் வரும் இயற்கை வர்ணனைகளின் சிறப்பு என்ன?",
+            "ground_truth": "இந்த நாவலில் கடல், தீவுகள் மற்றும் இயற்கை எழில் கொஞ்சும் இடங்கள் மிகத் துல்லியமாக வர்ணிக்கப்பட்டுள்ளன. இது வாசகர்களை அந்த வரலாற்று காலத்திற்கே அழைத்துச் செல்லும் வகையில் அமைந்துள்ளது.",
+            "lang": "tamil"
+        }
+    ]
+}

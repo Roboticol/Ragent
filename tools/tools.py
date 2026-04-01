@@ -53,4 +53,12 @@ def split_sentences(text, language):
                 
                 nlp = spacy.load(i["embed"])
                 doc = nlp(" ".join(text))
-                return [sent.text.strip() for sent in doc.sents if sent.text.strip()]
+
+                sentences = []
+
+                for sent in doc.sents:
+                    if sent.text.strip():
+                        # print("---" + sent.text.strip())
+                        sentences.append(sent.text.strip())
+                
+                return sentences
