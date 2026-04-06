@@ -11,6 +11,7 @@ import json
 
 evaluator_llm = LangchainLLMWrapper(OllamaLLM(model="llama3.1"))
 indic_embeddings = LangchainEmbeddingsWrapper(OllamaEmbeddings(model="mashriram/sarvam-1"))
+eval_langs = ["english", "hindi", "bengali", "marathi"]
 
 metrics = [
     Faithfulness(llm=evaluator_llm),
@@ -38,8 +39,9 @@ with open("./test/test_set.json", "r", encoding='utf-8') as f:
     test_set = json.load(f)["data"];
 
 for i in test_set:
-    print(i["user_input"], i["lang"])
-    i["answer"], i["contexts"] = query(i["user_input"], lang=i["lang"])
+    if i["lang"] in eval_langs:
+        print(i["user_input"], i["lang"])
+        i["answer"], i["contexts"] = query(i["user_input"], lang=i["lang"])
 
 print(test_set)
 
