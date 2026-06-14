@@ -46,7 +46,7 @@ Make sure [ollama](https://ollama.com/) is installed on your system. Then,
 ```bash
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
-ollama pull llama3.2:3b
+ollama pull mashriram/sarvam-m
 ```
 Create a `.env` file in your root folder, containing:
 ```

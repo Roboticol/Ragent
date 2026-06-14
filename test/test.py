@@ -8,9 +8,10 @@ from datasets import Dataset
 from ragas.run_config import RunConfig
 import asyncio
 import json
+import time
 
-evaluator_llm = LangchainLLMWrapper(OllamaLLM(model="llama3.1"))
-indic_embeddings = LangchainEmbeddingsWrapper(OllamaEmbeddings(model="mashriram/sarvam-1"))
+evaluator_llm = LangchainLLMWrapper(OllamaLLM(model="mashriram/sarvam-m"))
+indic_embeddings = LangchainEmbeddingsWrapper(OllamaEmbeddings(model="mashriram/sarvam-m"))
 eval_langs = ["english", "hindi", "bengali", "marathi"]
 
 metrics = [
@@ -35,20 +36,25 @@ def query(query_text, lang="english"):
 
 # Example Multilingual Test Set
 test_set = [];
+print("Test set loading...")
 with open("./test/test_set.json", "r", encoding='utf-8') as f:
     test_set = json.load(f)["data"];
+print("Test set loaded!")
+print(test_set)
 
 for i in test_set:
     if i["lang"] in eval_langs:
-        print(i["user_input"], i["lang"])
+        print(i["lang"])
         i["answer"], i["contexts"] = query(i["user_input"], lang=i["lang"])
+        time.sleep(2)
+    else:
+        test_set.remove(i)
 
-print(test_set)
 
 dataset = Dataset.from_list(test_set)
 
 run_config = RunConfig(
-    timeout=600,  # bump to 10 min, llama3.1 is slow
+    timeout=600,
     max_workers=1,
     max_retries=3,
 )

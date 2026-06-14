@@ -11,4 +11,4 @@ def log_query(query, top_k, retrieved, latency_ms):
         "timestamp": datetime.utcnow().isoformat()
     }
 
-    print(json.dumps(record))
+    # print(json.dumps(record))
