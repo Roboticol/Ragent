@@ -7,10 +7,10 @@ from chromadb import PersistentClient
 from chromadb.config import Settings
 from tools.tools import hash_file
 from dotenv import load_dotenv
-import spacy
-import subprocess
-import json
-import sys
+# import spacy
+# import subprocess
+# import json
+# import sys
 import os
 
 load_dotenv()

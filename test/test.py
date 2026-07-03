@@ -3,16 +3,34 @@ from ragas import evaluate
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
 from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
+from langchain_community.embeddings import HuggingFaceEmbeddings
 import requests
+from langchain_core.messages import AIMessage
+from langchain_core.outputs import ChatGeneration, ChatResult
+from langchain_ollama import OllamaLLM
+import re
 from datasets import Dataset
 from ragas.run_config import RunConfig
 import asyncio
 import json
 import time
 
-evaluator_llm = LangchainLLMWrapper(OllamaLLM(model="mashriram/sarvam-m"))
-indic_embeddings = LangchainEmbeddingsWrapper(OllamaEmbeddings(model="mashriram/sarvam-m"))
-eval_langs = ["english", "hindi", "bengali", "marathi"]
+# class StripThinkingOllamaLLM(OllamaLLM):
+#     def _generate(self, prompts, stop=None, **kwargs):
+#         result = super()._generate(prompts, stop=stop, **kwargs)
+#         cleaned = []
+#         for gen in result.generations:
+#             for g in gen:
+#                 text = re.sub(r"<think>.*?</think>", "", g.text, flags=re.DOTALL).strip()
+#                 cleaned.append([type(g)(text=text, generation_info=g.generation_info)])
+#         result.generations = cleaned
+#         return result
+
+evaluator_llm = LangchainLLMWrapper(
+    OllamaLLM(model="aya:8b")
+)
+indic_embeddings = LangchainEmbeddingsWrapper(HuggingFaceEmbeddings( model_name="sentence-transformers/paraphrase-multilingual-mpnet-base-v2", model_kwargs={"device": "cpu"}))
+eval_langs = ["english", "hindi", "bengali", "marathi", "tamil", "marathi"]
 
 metrics = [
     Faithfulness(llm=evaluator_llm),
@@ -43,20 +61,23 @@ print("Test set loaded!")
 print(test_set)
 
 for i in test_set:
+    if i["lang"] not in eval_langs:
+        test_set.remove(i)
+
+for i in test_set:
     if i["lang"] in eval_langs:
         print(i["lang"])
-        i["answer"], i["contexts"] = query(i["user_input"], lang=i["lang"])
+        i["response"], i["retrieved_contexts"] = query(i["user_input"], lang=i["lang"])
+        print(i["retrieved_contexts"])
         time.sleep(2)
-    else:
-        test_set.remove(i)
 
 
 dataset = Dataset.from_list(test_set)
 
 run_config = RunConfig(
-    timeout=600,
+    timeout=1800,
     max_workers=1,
-    max_retries=3,
+    max_retries=1,
 )
 
 results = evaluate(

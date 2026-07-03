@@ -3,7 +3,7 @@ import requests
 
 def call_llm(prompt, system="You are a helpful AI"):
     payload = {
-        "model": "mashriram/sarvam-m",
+        "model": "mashriram/sarvam-1",
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": prompt}
